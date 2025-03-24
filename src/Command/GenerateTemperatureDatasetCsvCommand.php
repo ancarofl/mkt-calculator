@@ -4,46 +4,42 @@ namespace App\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use DateTime;
 
 #[AsCommand(
-    name: 'app:generate-temperature-dataset-csv',
-    description: 'Add a short description for your command',
+	name: 'app:generate-temperature-dataset-csv',
+	description: 'Generates a CSV file with 300 temperatures (float) at 5 minute intervals (DateTime).',
 )]
 class GenerateTemperatureDatasetCsvCommand extends Command
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+	protected function execute(InputInterface $input, OutputInterface $output): int
+	{
+		$io = new SymfonyStyle($input, $output);
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
-    }
+		$timestamp = (new DateTime())->format('Y-m-d_H-i-s');
+		$filename = "temperature_readings_{$timestamp}.csv";
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+		$file = fopen($filename, 'w');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
+		if (!$file) {
+			$io->error("Failed to open or create '$filename'.");
+			return Command::FAILURE;
+		}
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
+		$dateTime = new DateTime('2025-03-24 00:00:00');
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+		for ($i = 0; $i < 300; $i++) {
+			$temperature = mt_rand(150, 300) / 10; // 15-30 degrees
+			fputcsv($file, [$dateTime->format('Y-m-d H:i:s'), $temperature]);
+			$dateTime->modify('+5 minutes');
+		}
 
-        return Command::SUCCESS;
-    }
+		fclose($file);
+		$io->success("CSV file '$filename' with 300 temperatures at 5 minute intervals created successfully.");
+
+		return Command::SUCCESS;
+	}
 }
