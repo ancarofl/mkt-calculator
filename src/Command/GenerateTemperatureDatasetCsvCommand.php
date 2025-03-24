@@ -34,12 +34,28 @@ class GenerateTemperatureDatasetCsvCommand extends Command
 			return Command::FAILURE;
 		}
 
-		$timestamp = (new DateTime())->format('Y-m-d_H-i-s');
-		$filename = "temperature_readings_{$timestamp}_{$entries}_{$interval}.csv";
-	
+		$projectDir = dirname(__DIR__, 2);
+		$targetDir = $projectDir . '/assets/data';
+		if (!is_dir($targetDir)) {
+			if (!mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+				$io->error("Cannot create directory: $targetDir.");
+				return Command::FAILURE;
+			}
+		}
+
+		$timestamp = (new DateTime())->format('Y_m_d_H_i_s');
+		$filename = sprintf(
+			'%s/temperature_readings_%d_%dmin_%s.csv',
+			$targetDir,
+			$entries,
+			$interval,
+			$timestamp,
+		);
+
+
 		$file = fopen($filename, 'w');
 		if (!$file) {
-			$io->error("Failed to open or create '$filename'.");
+			$io->error("Failed to open or create file: '$filename'.");
 			return Command::FAILURE;
 		}
 
