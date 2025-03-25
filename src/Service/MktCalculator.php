@@ -41,7 +41,7 @@ class MktCalculator
 		return $mktKelvin - 273.15;
 	}
 
-	// Only need thise to include the last temperature in the calculation
+	// Only need this to include the last temperature in the calculation
 	public function getAverageTimeInterval(): float
 	{
 		return $this->avgTimeInterval;
