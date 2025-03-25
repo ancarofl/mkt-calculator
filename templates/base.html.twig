@@ -1,17 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+        <title>{% block title %}MKT Calculator{% endblock %}</title>
+		<link rel="icon" href="{{ asset('images/icon.svg') }}">
+        
         {% block stylesheets %}
         {% endblock %}
-
+        
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+
+    <body class="min-h-screen flex flex-col bg-gray-200 ">
+        <nav class="bg-gray-800 p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <a href="/" class="text-white text-2xl">MKTC</a>
+                <ul class="flex space-x-6 text-white">
+                    <li><a href="/" class="hover:text-gray-400">Home</a></li>
+                    <li><a href="/datasets/temperature/new" class="hover:text-gray-400">Calculator</a></li>
+                    {# <li><a href="/contact" class="hover:text-gray-400">Contact</a></li> # TODO: later #}
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container mx-auto p-8 flex-grow">
+            {% block body %}{% endblock %}
+        </div>
+
+        <footer class="bg-gray-800 text-white p-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2025 MKTC. All rights reserved.</p>
+            </div>
+        </footer>
     </body>
 </html>

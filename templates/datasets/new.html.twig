@@ -1,3 +1,28 @@
-{{ form_start(form, {'action': path('datasets_temperature_create'), 'method': 'POST'}) }}
-    {{ form_widget(form) }}
-{{ form_end(form) }}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="bg-blue-500 text-white text-center flex flex-col justify-center h-30">
+        <h1 class="text-4xl font-bold">Upload your dataset</h1>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 py-16">
+		{# TODO: FIX THIS AND DISPLAY ERRORS #}		
+		{{ form_start(form, {'action': path('datasets_temperature_create'), 'method': 'POST'}) }}
+            <div class="mb-4">
+                {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.name, {'attr': {'class': 'bg-white mt-1 block w-full px-3 py-2 border border-gray-300 roundedfocus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.name, {'attr': {'class': 'text-sm text-red-500'}}) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_label(form.file, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.file, {'attr': {'class': 'bg-white mt-1 block w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {{ form_errors(form.file, {'attr': {'class': 'text-sm text-red-500'}}) }}
+            </div>
+
+            <div class="mb-4">
+                {{ form_widget(form.submit, {'attr': {'class': 'w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500'}}) }}
+            </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

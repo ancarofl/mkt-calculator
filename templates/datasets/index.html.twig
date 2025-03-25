@@ -1,14 +1,24 @@
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Submission Date</th>
-        <th>MKT</th>
-    </tr>
-    {% for dataset in datasets %}
-        <tr>
-            <td>{{ dataset.name }}</td>
-            <td>{{ dataset.createdAt|date('d-m-Y H:i:s') }}</td>
-            <td>{{ dataset.calculatedMkt is not null ? dataset.calculatedMkt : '-' }}</td>
-        </tr>
-    {% endfor %}
-</table>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 font-bold ">Temperature Datasets</h2>
+    
+    <table class="min-w-full table-auto bg-white shadow-md overflow-hidden text-left text-gray-600">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Submission Date</th>
+                <th class="px-4 py-2">MKT</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset in datasets %}
+                <tr class="border">
+                    <td class="px-4 py-2">{{ dataset.name }}</td>
+                    <td class="px-4 py-2">{{ dataset.createdAt|date('d-m-Y H:i:s') }}</td>
+                    <td class="px-4 py-2">{{ dataset.calculatedMkt is not null ? dataset.calculatedMkt : '-' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

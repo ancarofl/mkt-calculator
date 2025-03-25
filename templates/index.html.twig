@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section class="bg-blue-500 text-white text-center flex flex-col justify-center h-90">
+        <h1 class="text-4xl font-bold mb-4 font-bold">Mean Kinetic Temperature (MKT)</h1>
+        <p class="text-xl">Calculate MKT for your datasets</p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl text-gray-800">What is MKT?</h2>
+        </div>
+        <div class="space-y-4 text-lg text-gray-700 ">
+            <p>
+                Mean Kinetic Temperature (MKT) is a way of calculating the effect of temperature fluctuations during storage or transit
+				of perishable goods. In a way it calculates a sort of ‘average’ of a set of time/temperature pairs but taking into account
+				the energetic properties of a certain product. The MKT is widely used in the pharmaceutical industry to determine the
+				impact of temperature variations on medicine.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-gray-100 py-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <a href="/datasets/temperature/new" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Go to calculator</a>
+        </div>
+    </section>
+{% endblock %}
