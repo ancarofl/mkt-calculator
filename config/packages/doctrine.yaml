@@ -8,6 +8,8 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+        logging: false # Disables SQL query logging. TODO: Is there a better solution to fix memory issues for large files, other than this and other than increasing  the memory cap? There must be right?
+        profiling: false # Disables performance profiling. TODO: Is there a better solution to fix memory issues for large files?
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
