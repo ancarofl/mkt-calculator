@@ -13,7 +13,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 #[AsCommand(
 	name: 'app:delete-all-datasets',
-	description: 'Delete all temperature data sets and their records.'
+	description: 'Delete all temperature datasets and their records and reset autoincrement indexes.'
 )]
 class DeleteAllDatasetsCommand extends Command
 {
@@ -34,7 +34,7 @@ class DeleteAllDatasetsCommand extends Command
 			return Command::SUCCESS;
 		}
 
-		$io->note(sprintf('Deleting all data sets and their records...'));
+		$io->note('Deleting all datasets and their records...');
 
 		$batchSize = 5;
 		$i = 0;
@@ -43,9 +43,7 @@ class DeleteAllDatasetsCommand extends Command
 			$this->em->remove($dataset);
 
 			$i++;
-			$isBatchCompleted = $i % $batchSize === 0;
-
-			if ($isBatchCompleted) {
+			if ($i % $batchSize === 0) {
 				$this->em->flush();
 				$this->em->clear();
 			}
@@ -54,7 +52,17 @@ class DeleteAllDatasetsCommand extends Command
 		$this->em->flush();
 		$this->em->clear();
 
-		$io->success('All data sets and their records have been deleted successfully.');
+		$io->note('Resetting autoincrement indexes...');
+
+		$connection = $this->em->getConnection();
+		$schemaManager = $connection->createSchemaManager();
+		$tables = $schemaManager->listTableNames();
+
+		foreach ($tables as $table) {
+			$connection->executeStatement("ALTER TABLE `$table` AUTO_INCREMENT = 1");
+		}
+
+		$io->success('All datasets deleted, and autoincrement indexes reset successfully.');
 
 		return Command::SUCCESS;
 	}
