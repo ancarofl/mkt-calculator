@@ -44,7 +44,7 @@ class TemperatureDatasetController extends AbstractController
 		FileParserInterface $fileParser,
 		TemperatureDatasetRepository $datasetRepository,
 		TemperatureDatasetProcessor $datasetProcessor
-	): JsonResponse {
+	): Response {
 		$form = $this->createForm(TemperatureDatasetUploadType::class);
 		$form->handleRequest($request);
 
@@ -71,11 +71,8 @@ class TemperatureDatasetController extends AbstractController
 			$dataset->setCalculatedMkt($result['mkt']);
 			$datasetRepository->save($dataset, true);
 
-			// TODO: Adjust response. Redirect to index or something.
-			return $this->json([
-				'message' => "{$result['recordCount']} records inserted.",
-				'MKT' => $result['mkt'],
-			], Response::HTTP_CREATED);
+			// TODO: Highlight just added dataset? Add a loading bar while processing?
+			return $this->redirectToRoute('datasets_temperature_index');
 		} catch (DBALException $e) {
 			return $this->json([
 				'error' => 'Database error: ' . $e->getMessage(),
