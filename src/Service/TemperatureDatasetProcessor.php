@@ -40,6 +40,11 @@ class TemperatureDatasetProcessor
 			$previousRecord = $record;
 		}
 
+		// Include the last temperature in the calculation, assume time interval is the average time interval of the dataset
+		if ($previousRecord !== null) {
+			$this->mktCalculator->update($previousRecord['temperature'], $this->mktCalculator->getAverageTimeInterval());
+		}
+
 		if (!empty($batchValues)) {
 			$this->flushBatch($batchValues);
 		}
