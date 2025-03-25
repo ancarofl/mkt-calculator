@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Repository\TemperatureDataSetRepository;
+use App\Repository\TemperatureDatasetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +21,7 @@ class DeleteAllDatasetsCommand extends Command
 	public EntityManagerInterface $em;
 
 	#[Required]
-	public TemperatureDataSetRepository $datasetRepository;
+	public TemperatureDatasetRepository $datasetRepository;
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
