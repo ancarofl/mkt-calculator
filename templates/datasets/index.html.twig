@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Submission Date</th>
+        <th>MKT</th>
+    </tr>
+    {% for dataset in datasets %}
+        <tr>
+            <td>{{ dataset.name }}</td>
+            <td>{{ dataset.createdAt|date('d-m-Y H:i:s') }}</td>
+            <td>{{ dataset.calculatedMkt is not null ? dataset.calculatedMkt : '-' }}</td>
+        </tr>
+    {% endfor %}
+</table>
