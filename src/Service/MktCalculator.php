@@ -13,7 +13,7 @@ class MktCalculator
 	public function update(float $temperatureCelsius): void
 	{
 		$tempKelvin = $temperatureCelsius + 273.15;
-		$this->sumExp += exp(- (self::DeltaH) / (self::R * $tempKelvin));
+		$this->sumExp += exp(- (self::DeltaH * 1000) / (self::R * $tempKelvin));
 		$this->recordCount++;
 	}
 
@@ -24,7 +24,7 @@ class MktCalculator
 		}
 
 		$averageExp = $this->sumExp / $this->recordCount;
-		$mktKelvin = (self::DeltaH) / (self::R * (-log($averageExp)));
+		$mktKelvin = (self::DeltaH * 1000) / (self::R * (-log($averageExp)));
 		return $mktKelvin - 273.15;
 	}
 }
