@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Form\TemperatureDatasetUploadType;
 use App\Entity\TemperatureDataset;
 use App\Service\FileParser\FileParserInterface;
@@ -19,12 +18,21 @@ use Doctrine\DBAL\Exception as DBALException;
 class TemperatureDatasetController extends AbstractController
 {
 	#[Route('/', name: 'index', methods: ['GET'])]
-	public function index(TemperatureDatasetRepository $datasetRepo): Response
+	public function index(TemperatureDatasetRepository $datasetRepo, Request $request): Response
 	{
-		$datasets = $datasetRepo->findAll();
+		$page = $request->query->getInt('page', 1);
+		$limit = 30;
+		$offset = ($page - 1) * $limit;
+
+		$datasets = $datasetRepo->findBy([], ['id' => 'ASC'], $limit, $offset);
+
+		$totalItems = $datasetRepo->count([]);
+		$totalPages = ceil($totalItems / $limit);
 
 		return $this->render('datasets/index.html.twig', [
-			'datasets' => $datasets
+			'datasets' => $datasets,
+			'currentPage' => $page,
+			'totalPages' => $totalPages,
 		]);
 	}
 

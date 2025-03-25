@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2 class="text-xl font-semibold text-gray-800 mb-4 font-bold ">Temperature Datasets</h2>
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 font-bold ">Temperature datasets</h2>
     
     <table class="min-w-full table-auto bg-white shadow-md overflow-hidden text-left text-gray-600">
         <thead>
-            <tr class="bg-gray-100">
+            <tr class="bg-[#81c784] border">
                 <th class="px-4 py-2">Name</th>
                 <th class="px-4 py-2">Submission Date</th>
-                <th class="px-4 py-2">MKT</th>
+                <th class="px-4 py-2">MKT (°C)</th>
             </tr>
         </thead>
         <tbody>
@@ -21,4 +21,22 @@
             {% endfor %}
         </tbody>
     </table>
+		{% if totalPages > 1 %}
+		<div>
+			{% if currentPage > 1 %}
+				<a href="{{ path('datasets_temperature_index', {page: currentPage - 1}) }}">Previous</a>
+			{% endif %}
+
+			{% for page in 1..totalPages %}
+				<a href="{{ path('datasets_temperature_index', {page: page}) }}" 
+				class="{{ currentPage == page ? 'active' : '' }}">
+					{{ page }}
+				</a>
+			{% endfor %}
+
+			{% if currentPage < totalPages %}
+				<a href="{{ path('datasets_temperature_index', {page: currentPage + 1}) }}">Next</a>
+			{% endif %}
+		</div>
+	{% endif %}
 {% endblock %}
