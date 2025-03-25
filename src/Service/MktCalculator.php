@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use RuntimeException;
-
 class MktCalculator
 {
 	private const R = 8.314; // gas constant (J/mol * K)
