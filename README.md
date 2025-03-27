@@ -35,6 +35,9 @@ DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name"
 # Create the database
 php bin/console doctrine:database:create
 
+# Autogen migrations based on schema diff
+php bin/console doctrine:migrations:diff
+
 # Run migrations
 php bin/console doctrine:migrations:migrate
 ```
