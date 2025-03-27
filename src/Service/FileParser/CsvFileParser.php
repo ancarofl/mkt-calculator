@@ -48,12 +48,16 @@ class CsvFileParser implements FileParserInterface
 
 	private function parseRow(array $row): array
 	{
-		try {
-			$time = (new DateTimeImmutable($row[0]))->format('Y-m-d H:i:s');  // it has to be this format cus of MySql
-		} catch (ValueError $e) {
-			throw new RuntimeException("Invalid date format: {$row[0]}. Error: {$e->getMessage()}");
-		} catch (Exception $e) {
-			throw new RuntimeException("Invalid date format: {$row[0]}. Error: {$e->getMessage()}");
+		$rawTime = $row[0];
+
+		if (is_numeric($rawTime)) {
+			$time = date('Y-m-d H:i:s', (int) $rawTime);
+		} else {
+			try {
+				$time = (new DateTimeImmutable($rawTime))->format('Y-m-d H:i:s');
+			} catch (ValueError | Exception $e) {
+				throw new RuntimeException("Invalid date format: {$rawTime}. Error: {$e->getMessage()}");
+			}
 		}
 
 		return [
