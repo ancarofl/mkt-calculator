@@ -56,16 +56,16 @@ class TemperatureDatasetController extends AbstractController
 		$form = $this->createForm(TemperatureDatasetUploadType::class);
 		$form->handleRequest($request);
 
-		// TODO: DISPLAY ERRORS
 		if (!$form->isSubmitted() || !$form->isValid()) {
 			$errors = [];
 			foreach ($form->getErrors(true) as $error) {
 				$errors[] = $error->getMessage();
 			}
-			return $this->json([
-				'message' => 'Invalid form submission',
+
+			return $this->render('datasets/new.html.twig', [
+				'form' => $form->createView(),
 				'errors' => $errors,
-			], Response::HTTP_BAD_REQUEST);
+			]);
 		}
 
 		$data = $form->getData();
