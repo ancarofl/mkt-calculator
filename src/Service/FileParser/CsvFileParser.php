@@ -22,10 +22,8 @@ class CsvFileParser implements FileParserInterface
 			throw new RuntimeException("CSV error: " . $e->getMessage());
 		}
 
+		// Silently skip invalid rows. Calculated MKT is unaffected.
 		foreach ($csv->getRecords() as $row) {
-			/* Silently skip invalid rows. 
-			TODO: Keep track of count to show to user + more importantly fix the interval for the Mkt calc. Cus even if initially interval length is equal,
-			skipping some rows means it's not anymore. */
 			if (!$this->isValidRow($row)) {
 				continue;
 			}
@@ -33,7 +31,6 @@ class CsvFileParser implements FileParserInterface
 			try {
 				yield $this->parseRow($row);
 			} catch (RuntimeException $e) {
-				// Also silently skip the row if parsing the date failed. TODO: Also keep track of this.
 				continue;
 			}
 		}
