@@ -45,7 +45,7 @@ php bin/console doctrine:migrations:migrate
 
 ### 5. Start Development Server
 ```bash
-symfony serve:start
+symfony server:start
 ```
 Access: http://127.0.0.1:8000
 
